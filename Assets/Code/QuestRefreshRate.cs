@@ -1,10 +1,15 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.XR;
 
-public class QuestRefreshRate : MonoBehaviour
+namespace MittMortis
 {
-    private void Awake()
+    public class QuestRefreshRate: MonoBehaviour
     {
-        Application.targetFrameRate = 120;
-        QualitySettings.vSyncCount = 0;
+        private void Awake()
+        {
+            Application.targetFrameRate = 120;
+        }
     }
 }

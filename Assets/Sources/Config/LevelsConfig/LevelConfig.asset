@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 549760ae73a4e9342a5d242ce7be57fc, type: 3}
+  m_Name: LevelConfig
+  m_EditorClassIdentifier: Assembly-CSharp::MittMortis.Config.LevelConfig
+  packElementsConfig:
+  - {fileID: 11400000, guid: 6d322faab5eed364b8b466a40e0668a3, type: 2}
+  - {fileID: 11400000, guid: fbe8b46ec35ef49439ee8790b6097e4b, type: 2}
+  - {fileID: 11400000, guid: eb9ce386c478f5746877b74b83110054, type: 2}
+  - {fileID: 11400000, guid: 308eb651fd55dcd45ad7d817d4e54436, type: 2}
+  - {fileID: 11400000, guid: 1a8e4735ca40af64ab4e7365d08596b8, type: 2}

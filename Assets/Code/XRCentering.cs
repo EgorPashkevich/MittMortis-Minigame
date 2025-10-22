@@ -1,21 +1,30 @@
+using System;
 using UnityEngine;
 
-public class XRCentering : MonoBehaviour
+namespace MittMortis
 {
-    [SerializeField] Transform contentRoot;
-    [SerializeField] float distanceFromCamera = 1.2f;
-    [SerializeField] float heightOffset = -0.2f;
-
-    void Start() => CenterContent();
-
-    public void CenterContent()
+    [Serializable]
+    public class XRCentering
     {
-        var cam = Camera.main; if (!cam) return;
-        var fwd = cam.transform.forward; fwd.y = 0f; fwd.Normalize();
-        var pos = cam.transform.position + fwd * distanceFromCamera;
-        pos.y = cam.transform.position.y + heightOffset;
+        [SerializeField] Transform contentRoot;
+        [SerializeField] Transform counterDodgeTargets;
+        [SerializeField] float distanceFromCamera = 1.2f;
+        [SerializeField] float heightOffset = -0.2f;
 
-        contentRoot.position = pos;
-        contentRoot.rotation = Quaternion.LookRotation(fwd, Vector3.up);
+        public void Init()
+        {
+            var camera = Camera.main; 
+            if (!camera) return;
+            var forward = camera.transform.forward; 
+            forward.y = 0f; forward.Normalize();
+            var position = camera.transform.position + forward * distanceFromCamera;
+            position.y = camera.transform.position.y + heightOffset;
+
+            contentRoot.position = position;
+            contentRoot.rotation = Quaternion.LookRotation(forward, Vector3.up);
+
+            counterDodgeTargets.position = camera.transform.position - forward * 0.5f;
+            counterDodgeTargets.rotation = Quaternion.LookRotation(forward, Vector3.up);
+        }
     }
 }

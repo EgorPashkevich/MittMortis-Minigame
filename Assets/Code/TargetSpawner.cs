@@ -1,42 +1,54 @@
+using MittMortis.Config;
+using System;
 using UnityEngine;
 
-public class TargetSpawner : MonoBehaviour
+namespace MittMortis
 {
-    [System.Serializable]
-    public struct PadEntry
+    [Serializable]
+    public class TargetSpawner
     {
-        public ActionType type;
-        public HitTarget prefab;
-        public Vector3 localPos;   
-        public Vector3 localEuler; 
-    }
+        [SerializeField] private PoolInit poolInit;
+        [SerializeField] private LevelConfig levelConfig;
+        [SerializeField] private Transform ContentRoot;
+        [SerializeField] private Transform poolElement;
 
-    public Transform anchor;        
-    public PadEntry[] entries;
+        public event Action OnEndPackElements;
 
-    private ObjectPool<HitTarget>[] _pools;
+        private GameSession gameSession;
 
-    private void Start()
-    {
-        _pools = new ObjectPool<HitTarget>[entries.Length];
-        for (int i = 0; i < entries.Length; i++)
-            _pools[i] = new ObjectPool<HitTarget>(entries[i].prefab, 6, transform);
-    }
+        private int indexPackElement;
+        private int indexElement;
+        private bool isSession;
 
-    public HitTarget Spawn(ActionType t, System.Action<HitTarget> onHit)
-    {
-        int idx = System.Array.FindIndex(entries, e => e.type == t);
-        if (idx < 0) { Debug.LogWarning($"No entry for {t}"); return null; }
+        public void Init(GameSession session)
+        {
+            gameSession = session;
+            poolElement.transform.position = Vector3.zero;
+            poolInit.Init(poolElement);
+            poolInit.OnObjectRelease += gameSession.ReleaseObject;
+        }
 
-        var e = entries[idx];
-        var pad = _pools[idx].Get();
-        var world = anchor.TransformPoint(e.localPos);
-        var rot = anchor.rotation * Quaternion.Euler(e.localEuler);
+        public TrainingElement Spawn()
+        {
+            if (!isSession) 
+            {
+                indexPackElement = UnityEngine.Random.Range(0, levelConfig.packElementsConfig.Count);
+                isSession = true;
+                OnEndPackElements?.Invoke();
+            }
+            var trainingConfig = levelConfig.packElementsConfig[indexPackElement].trainingElements[indexElement];
+            indexElement++;
 
-        pad.transform.SetPositionAndRotation(world, rot);
-        pad.Init(e.type, h => { onHit?.Invoke(h); _pools[idx].Release(h); });
-        pad.expectedBasis = pad.expectedBasis ? pad.expectedBasis : pad.transform;
+            if(indexElement >= levelConfig.packElementsConfig[indexPackElement].trainingElements.Count)
+            {
+                isSession = false; 
+                indexElement = 0;
+            }
 
-        return pad;
+            var element = trainingConfig.Create(new() { poolInit = poolInit });
+            gameSession.AddObject(element);
+            element.transform.position += ContentRoot.position;
+            return element;
+        }
     }
 }

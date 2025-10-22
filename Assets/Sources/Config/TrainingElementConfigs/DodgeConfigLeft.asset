@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08146e34b5b3a55429b889ff9af92c78, type: 3}
+  m_Name: DodgeConfigLeft
+  m_EditorClassIdentifier: Assembly-CSharp::MittMortis.Config.DodgeConfig
+  localPos: {x: 0, y: 0, z: 2}
+  localEuler: {x: 0, y: 0, z: -45}
+  prefab: {fileID: 3634563832414465371, guid: 158b22bafa93623479ea5c5c083a886f, type: 3}
+  SpeedDefault: 3
